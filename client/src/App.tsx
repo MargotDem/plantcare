@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { useAsync } from "./utils/useAsync"
+import { useAsync } from "./utils/useAsync";
 import "./App.css";
+import TestBackend from "./testBackend";
 
 const BACKEND_URL = "http://localhost:3002";
 
@@ -26,6 +27,8 @@ function App() {
         <>
           <h1>Hello</h1>
           <p>Message from the backend: {fetchUsers.value?.message}</p>
+          <br />
+          <TestBackend />
         </>
       )}
     </>

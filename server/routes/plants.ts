@@ -15,4 +15,6 @@ plantsRouter.delete("/plants/:id", plantsController.deletePlant);
 
 plantsRouter.put("/plants/:id", plantsController.updatePlant);
 
+plantsRouter.post("/assignUserToPlant/:user_id/:plant_id", plantsController.assignUserToPlant);
+
 export { plantsRouter };

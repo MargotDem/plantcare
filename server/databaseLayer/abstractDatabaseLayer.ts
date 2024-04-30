@@ -19,7 +19,11 @@ export default class DatabaseLayer {
     pool.query(`DELETE FROM ${this.table} WHERE id = $1`, [id], callBack);
   }
 
-  protected insert(columns: string[], values: (string | Date | number)[], callBack: any) {
+  protected insert(
+    columns: string[],
+    values: (string | Date | number)[],
+    callBack: any
+  ) {
     pool.query(
       `INSERT INTO ${this.table} (${columns.toString()}) VALUES (${[
         ...values.map((_val, id) => `$${id + 1}`),
@@ -73,6 +77,21 @@ export default class DatabaseLayer {
         -1
       )}_id
 	WHERE ${joinedTable}.id = ${id};`,
+      callBack
+    );
+  }
+
+  protected insertJoin(
+    columns: string[],
+    values: (string | Date | number)[],
+    jointTable: string,
+    callBack: any
+  ) {
+    pool.query(
+      `INSERT INTO ${jointTable} (${columns.toString()}) VALUES (${[
+        ...values.map((_val, id) => `$${id + 1}`),
+      ].toString()})  RETURNING *;`,
+      values,
       callBack
     );
   }

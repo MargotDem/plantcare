@@ -38,6 +38,7 @@ const usersController = {
       if (error) {
         throw error;
       }
+	  // TODO handle errors, and if user doesn't exist?
       res.status(200).json({ message: `User deleted with ID: ${id}` });
     });
   },

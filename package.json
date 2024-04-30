@@ -8,7 +8,7 @@
     "install": "cd client && npm install && cd ../server && npm install",
     "serverDev": "cd server && npm run dev",
     "clientDev": "cd client && npm run dev",
-    "dev": "concurrently -n \"client,server\" -c \"white,blue\" -p \"[{name}]\"  \"npm run serverDev\" \"npm run clientDev\" ",
+    "dev": "concurrently -n \"client,server\" -c \"white,blue\" -p \"[{name}]\" \"npm run clientDev\" \"npm run serverDev\"",
     "server": "cd server && npm run start"
   },
   "keywords": [],
