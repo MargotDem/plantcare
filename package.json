@@ -1,0 +1,20 @@
+{
+  "name": "plantcare",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "cd client && npm install && cd ../server && npm install",
+    "serverDev": "cd server && npm run dev",
+    "clientDev": "cd client && npm run dev",
+    "dev": "concurrently -n \"client,server\" -c \"white,blue\" -p \"[{name}]\"  \"npm run serverDev\" \"npm run clientDev\" ",
+    "server": "cd server && npm run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

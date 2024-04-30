@@ -1,0 +1,11 @@
+{
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "useUnknownInCatchVariables": true,
+    "checkJs": true
+  }
+}
