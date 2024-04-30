@@ -3,6 +3,8 @@ import "dotenv/config";
 import cors from "cors";
 import helmet from "helmet";
 
+import { usersRouter, plantsRouter } from "./routes";
+
 const app = express();
 
 const PORT = process.env.PORT || 3002;
@@ -25,6 +27,8 @@ app.use(helmet());
 app.use(cors(origin));
 
 // load routers
+app.use(usersRouter);
+app.use(plantsRouter);
 
 // health check endpoint
 app.get("/health", (req, res) => {
