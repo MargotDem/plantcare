@@ -3,7 +3,8 @@ import { useAsync } from "../../../utils/useAsync";
 import type { TUser } from "../../../types/usersTypes";
 import styled, { css } from "styled-components";
 import Loading from "../../Loading";
-import UserModal from "./userModal";
+import UserInfoModal from "./UserInfoModal";
+import CreateUserModal from "./CreateUserModal";
 
 const BACKEND_URL = "http://localhost:3002";
 
@@ -27,10 +28,12 @@ const UserRow = ({
   isCurrentUser,
   user,
   setCurrentUser,
+  refreshUsers,
 }: {
   isCurrentUser: boolean;
   user: TUser;
   setCurrentUser: (id: number) => void;
+  refreshUsers: any;
 }) => {
   return (
     <li>
@@ -43,7 +46,11 @@ const UserRow = ({
         (set current user)
       </StyledUserRow>
       <>
-        <UserModal user_id={user.id} isCurrentUser={isCurrentUser} />
+        <UserInfoModal
+          user_id={user.id}
+          isCurrentUser={isCurrentUser}
+          refreshUsers={refreshUsers}
+        />
       </>
     </li>
   );
@@ -73,6 +80,10 @@ const UsersView = ({ currentUser, setCurrentUser }: TCurrentUserProps) => {
       ) : (
         <>
           <h4>Users</h4>
+          <br />
+          <CreateUserModal refreshUsers={() => fetchUsers.call()} />
+          <br />
+          <br />
           <ul>
             {(users as unknown as TUser[])?.map((user, id) => {
               const isCurrentUser = currentUser === user.id;
@@ -82,6 +93,7 @@ const UsersView = ({ currentUser, setCurrentUser }: TCurrentUserProps) => {
                   user={user}
                   isCurrentUser={isCurrentUser}
                   setCurrentUser={setCurrentUser}
+                  refreshUsers={() => fetchUsers.call()}
                 />
               );
             })}

@@ -4,7 +4,8 @@ import type { TPlant } from "../../../types/plantsTypes";
 import type { TUser } from "../../../types/usersTypes";
 import styled from "styled-components";
 import Loading from "../../Loading";
-import PlantModal from "./plantModal";
+import PlantInfoModal from "./PlantInfoModal";
+import CreatePlantModal from "./CreatePlantModal";
 
 const BACKEND_URL = "http://localhost:3002";
 
@@ -22,7 +23,7 @@ const PlantRow = ({
   return (
     <li>
       <StyledPlantRow>{plant.name}</StyledPlantRow>
-      <PlantModal
+      <PlantInfoModal
         plant_id={plant.id}
         currentUser={currentUser}
         allUsers={users}
@@ -68,6 +69,13 @@ const PlantsView = ({ currentUser }: { currentUser: number }) => {
       ) : (
         <>
           <h4>Plants</h4>
+          <br />
+          <CreatePlantModal
+            user_id={currentUser}
+            refreshPlants={() => fetchPlants.call()}
+          />
+          <br />
+          <br />
           <ul>
             {(plants as unknown as TPlant[])?.map((plant, id) => {
               return (

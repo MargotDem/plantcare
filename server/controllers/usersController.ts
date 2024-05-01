@@ -1,65 +1,56 @@
 import UserDatabaseLayer from "../databaseLayer/user";
-// import PlantDatabaseLayer from "../databaseLayer/plant";
+import databaseCallBack from "./databaseCallBack";
 
 const User = new UserDatabaseLayer("users");
-// const Plant = new PlantDatabaseLayer("plants");
 
 const usersController = {
   getUsers: (_req: any, res: any) => {
-    User.getAll((error: any, results: any) => {
-      if (error) {
-        throw error;
-      }
-      res.status(200).json(results.rows);
-    });
+    const callBack = databaseCallBack(
+      (results: any) => res.status(200).json(results.rows),
+      (_error: any) => res.status(500).json({ message: "Database error" })
+    );
+    User.getAll(callBack);
   },
+
   createUser: (req: any, res: any) => {
-    User.createUser(req.body, (error: any, results: any) => {
-      if (error) {
-        throw error;
-      }
-      res
-        .status(201)
-        .json({ message: `User added with ID: ${results.rows[0].id}` });
-    });
+    const callBack = databaseCallBack(
+      (results: any) =>
+        res
+          .status(200)
+          .json({ message: `User added with ID: ${results.rows[0].id}` }),
+      (_error: any) => res.status(500).json({ message: "Database error" })
+    );
+    User.createUser(req.body, callBack);
   },
+
   getUserById: (req: any, res: any) => {
     const id = parseInt(req.params.id);
-    User.getById(id, (error: any, results: any) => {
-      if (error) {
-        throw error;
-      }
-      res.status(200).json(results.rows);
-    });
+    const callBack = databaseCallBack(
+      (results: any) => res.status(200).json(results.rows),
+      (_error: any) => res.status(500).json({ message: "Database error" })
+    );
+    User.getById(id, callBack);
   },
+
   deleteUser: (req: any, res: any) => {
     const id = parseInt(req.params.id);
-    User.delete(id, (error: any, results: any) => {
-      if (error) {
-        throw error;
-      }
-	  // TODO handle errors, and if user doesn't exist?
-      res.status(200).json({ message: `User deleted with ID: ${id}` });
-    });
+    const callBack = databaseCallBack(
+      (_results: any) =>
+        res.status(200).json({ message: `User deleted with ID: ${id}` }),
+      (_error: any) => res.status(500).json({ message: "Database error" })
+    );
+    User.delete(id, callBack);
   },
+
   updateUser: (req: any, res: any) => {
     const id = parseInt(req.params.id);
-    User.updateUser(id, req.body, (error: any, results: any) => {
-      if (error) {
-        throw error;
-      }
-      res.status(200).json({ message: `User updater with ID: ${id}` });
-    });
+    const callBack = databaseCallBack(
+      (_results: any) =>
+        res.status(200).json({ message: `User updater with ID: ${id}` }),
+      (_error: any) => res.status(500).json({ message: "Database error" })
+    );
+    User.updateUser(id, req.body, callBack);
   },
-//   getUsersByPlantId: (req: any, res: any) => {
-//     const id = parseInt(req.params.id);
-//     User.getByPlantId(id, (error: any, results: any) => {
-//       if (error) {
-//         throw error;
-//       }
-//       res.status(200).json(results.rows);
-//     });
-//   },
 };
 
 export default usersController;
