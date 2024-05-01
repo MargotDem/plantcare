@@ -8,12 +8,9 @@ export const useAsync = (fn: (...args: any[]) => any) => {
     setIsPending(true);
     fn(...args)
       .then((result: any) => {
-        console.log("result");
-        console.log(result);
         setValue(result);
       })
       .finally(() => {
-        console.log("finally");
         setIsPending(false);
       });
   };
