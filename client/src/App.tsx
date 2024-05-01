@@ -3,47 +3,29 @@ import { useAsync } from "./utils/useAsync";
 import "./App.css";
 // import TestBackend from "./testBackend";
 import NavBar from "./components/NavBar";
-import UsersView from "./components/UsersView";
-
+import CenteredContainer from "./components/CenteredContainer";
+import type { TViews } from "./components/view";
+import View from "./components/view";
 import styled from "styled-components";
-import type { TViews } from "./components/NavBar";
+
+const StyledTest = styled.div`
+  position: relative;
+  z-index: 2;
+`;
 
 const BACKEND_URL = "http://localhost:3002";
 
-const CenteredContainer = styled.div`
-  text-align: center;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-`;
-
-const View = ({ view }: { view: TViews }) => {
-  let currentView;
-
-  switch (view) {
-    case "users":
-      currentView = <UsersView />;
-      break;
-    case "plants":
-      currentView = "PLANTS";
-      break;
-    case "schedule":
-      currentView = "SCHEDULE";
-      break;
-  }
-  return (
-    <CenteredContainer>
-      <h4>{currentView}</h4>
-    </CenteredContainer>
-  );
-};
-
 const MyApp = () => {
   const [view, setView] = useState<TViews>("users");
+  const [currentUser, setCurrentUser] = useState<number>(1);
   return (
     <CenteredContainer>
       <NavBar view={view} setView={setView} />
-      <View view={view} />
+      <View
+        view={view}
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+      />
     </CenteredContainer>
   );
 };
@@ -64,7 +46,9 @@ function App() {
 
   return (
     <>
-      <MyApp />
+      <StyledTest>
+        <MyApp />
+      </StyledTest>
     </>
     // <>
     //   {fetchUsers.isPending ? (

@@ -1,14 +1,13 @@
 import styled from "styled-components";
 import Button from "./Button";
+import type {TViews} from "./view"
 
-const NavContainer = styled.div`
+const StyledNavContainer = styled.div`
   text-align: center;
   align-items: center;
   display: flex;
   flex-direction: row;
 `;
-
-export type TViews = "users" | "plants" | "schedule";
 
 type TNavProps = {
   view: TViews;
@@ -29,11 +28,11 @@ const NavButton = ({
 
 const NavBar = ({ view, setView }: TNavProps) => {
   return (
-    <NavContainer>
+    <StyledNavContainer>
       <NavButton view={"users"} currentView={view} setView={setView} />
       <NavButton view={"plants"} currentView={view} setView={setView} />
       <NavButton view={"schedule"} currentView={view} setView={setView} />
-    </NavContainer>
+    </StyledNavContainer>
   );
 };
 

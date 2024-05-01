@@ -17,7 +17,7 @@ export default class UserDatabaseLayer extends DatabaseLayer {
     this.update(id, Object.keys(user), Object.values(user), callBack);
   }
 
-//   public getByPlantId(id: number, callBack: any) {
-//     this.join(id, "plants", "plants_users", callBack);
-//   }
+  public getByPlantId(id: number, callBack: any) {
+    this.join(id, "plants", "plants_users", callBack);
+  }
 }

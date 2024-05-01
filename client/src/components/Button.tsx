@@ -10,7 +10,6 @@ const Button = styled.button<{ $primary?: boolean }>`
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-
   ${(props) =>
     props.$primary &&
     css`

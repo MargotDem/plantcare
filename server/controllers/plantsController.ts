@@ -1,6 +1,8 @@
 import PlantDatabaseLayer from "../databaseLayer/plant";
+import UserDatabaseLayer from "../databaseLayer/user";
 
 const Plant = new PlantDatabaseLayer("plants");
+const User = new UserDatabaseLayer("users");
 
 const plantsController = {
   getPlantsByUserId: (req: any, res: any) => {
@@ -55,15 +57,42 @@ const plantsController = {
       res.status(200).json(results.rows);
     });
   },
-  getPlantById: (req: any, res: any) => {
+  getPlantById: async (req: any, res: any) => {
     // handle also returning all the users associated to the plant
     const id = parseInt(req.params.id);
-    Plant.getById(id, (error: any, results: any) => {
-      if (error) {
-        throw error;
-      }
-      res.status(200).json(results.rows);
+    const plantInfo = {
+      plant: null,
+      users: null,
+    }
+
+    await new Promise<void>(function (resolve, _reject) {
+      Plant.getById(
+        id,
+        (error: any, results: any) => {
+          if (error) {
+            throw error;
+          }
+          // handle if plant doesnt exist??
+          plantInfo.plant = results.rows[0];
+          resolve();
+        }
+      );
     });
+
+    await new Promise<void>(function (resolve, _reject) {
+      User.getByPlantId(
+        id,
+        (error: any, results: any) => {
+          if (error) {
+            throw error;
+          }
+          plantInfo.users = results.rows;
+          resolve();
+        }
+      );
+    });
+
+    res.status(200).json(plantInfo);
   },
   deletePlant: (req: any, res: any) => {
     const id = parseInt(req.params.id);
