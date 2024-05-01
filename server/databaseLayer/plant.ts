@@ -21,7 +21,15 @@ export default class PlantDatabaseLayer extends DatabaseLayer {
   }
 
   public getByUserId(user_id: number, callBack: any) {
-    this.join(user_id, "users", "plants_users", callBack);
+    const order = {};
+    this.join(user_id, "users", "plants_users", callBack, order);
+  }
+
+  public getByUserIdAsc(user_id: number, callBack: any) {
+    const order = {
+      asc: "true",
+    };
+    this.join(user_id, "users", "plants_users", callBack, order);
   }
 
   public assignUserToPlant(user_id: number, plant_id: number, callBack: any) {

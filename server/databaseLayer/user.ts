@@ -18,6 +18,7 @@ export default class UserDatabaseLayer extends DatabaseLayer {
   }
 
   public getByPlantId(id: number, callBack: any) {
-    this.join(id, "plants", "plants_users", callBack);
+    const order = {};
+    this.join(id, "plants", "plants_users", callBack, order);
   }
 }

@@ -7,6 +7,8 @@ const plantsRouter = Router();
 
 plantsRouter.get("/plantsByUserId/:user_id", plantsController.getPlantsByUserId);
 
+plantsRouter.get("/scheduledPlantsByUserId/:user_id", plantsController.getScheduledPlantsByUserId);
+
 plantsRouter.post("/plants/:user_id", plantsController.createPlant);
 
 plantsRouter.get("/plants/:id", plantsController.getPlantById);

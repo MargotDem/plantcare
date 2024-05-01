@@ -6,6 +6,15 @@ const Plant = new PlantDatabaseLayer("plants");
 const User = new UserDatabaseLayer("users");
 
 const plantsController = {
+  getScheduledPlantsByUserId: (req: any, res: any) => {
+    const id = parseInt(req.params.user_id);
+    const callBack = databaseCallBack(
+      (results: any) => res.status(200).json(results.rows),
+      (_error: any) => res.status(500).json({ message: "Database error" })
+    );
+    Plant.getByUserIdAsc(id, callBack);
+  },
+
   getPlantsByUserId: (req: any, res: any) => {
     const id = parseInt(req.params.user_id);
     const callBack = databaseCallBack(

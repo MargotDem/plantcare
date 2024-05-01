@@ -68,8 +68,6 @@ const PlantsView = ({ currentUser }: { currentUser: number }) => {
         <Loading />
       ) : (
         <>
-          <h4>Plants</h4>
-          <br />
           <CreatePlantModal
             user_id={currentUser}
             refreshPlants={() => fetchPlants.call()}

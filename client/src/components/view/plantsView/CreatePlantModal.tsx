@@ -1,6 +1,7 @@
 import Modal from "../../Modal";
 import { useAsync } from "../../../utils/useAsync";
 import PlantFormContainer from "./PlantForm";
+import { addDays } from "../../../utils/addDays";
 
 const BACKEND_URL = "http://localhost:3002";
 
@@ -17,6 +18,11 @@ const CreatePlantFormContainer = ({
     description: undefined,
   };
   const createPlant = useAsync(async (formValues) => {
+    const next_watering_due_date = addDays(new Date(), formValues.watering_frequency);
+    const newPlant = {
+      ...formValues,
+      next_watering_due_date,
+    };
     try {
       const response = await fetch(`${BACKEND_URL}/plants/${user_id}`, {
         headers: {
@@ -24,7 +30,7 @@ const CreatePlantFormContainer = ({
           "Content-Type": "application/json",
         },
         method: "post",
-        body: JSON.stringify(formValues),
+        body: JSON.stringify(newPlant),
       });
       console.log("response");
       const message = await response.json();

@@ -79,8 +79,6 @@ const UsersView = ({ currentUser, setCurrentUser }: TCurrentUserProps) => {
         <Loading />
       ) : (
         <>
-          <h4>Users</h4>
-          <br />
           <CreateUserModal refreshUsers={() => fetchUsers.call()} />
           <br />
           <br />

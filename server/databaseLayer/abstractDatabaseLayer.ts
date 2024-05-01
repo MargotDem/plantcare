@@ -55,7 +55,8 @@ export default class DatabaseLayer {
     id: number,
     joinedTable: string,
     jointTable: string,
-    callBack: any
+    callBack: any,
+    order: any, // TODO type
   ) {
     /*
 		TODO: this join method is entirely reliant on the fact that tables and joint tables are named
@@ -76,7 +77,7 @@ export default class DatabaseLayer {
         0,
         -1
       )}_id
-	WHERE ${joinedTable}.id = ${id};`,
+	WHERE ${joinedTable}.id = ${id} ${order.asc ? "ORDER BY next_watering_due_date ASC" : ""};`,
       callBack
     );
   }

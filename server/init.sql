@@ -3,7 +3,7 @@ CREATE TABLE plants (
   name VARCHAR(100) NOT NULL,
   description VARCHAR(255),
   date_created timestamp default current_timestamp,
-  next_watering_due_date timestamp,
+  next_watering_due_date timestamp NOT NULL,
   watering_frequency INT NOT NULL
 );
 

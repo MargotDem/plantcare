@@ -127,7 +127,7 @@ const PlantModal = ({
     return (
       <div>
         <h3>Plant: {plant.name}</h3>
-        Date added: {date.toLocaleString()}
+        Date added: {date.toLocaleDateString()}
         <br />
         <h4>Description:</h4>
         {plant.description ? (

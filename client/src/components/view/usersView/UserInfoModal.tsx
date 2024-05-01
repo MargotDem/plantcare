@@ -84,7 +84,7 @@ const UserModal = ({
         <h3>
           User: {user.name} {isCurrentUser && "(Current user)"}
         </h3>
-        Date joined: {date.toLocaleString()}
+        Date joined: {date.toLocaleDateString()}
         <br />
         <DeleteUserModal
           user_name={user.name}
