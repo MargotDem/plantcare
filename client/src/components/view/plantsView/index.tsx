@@ -7,8 +7,6 @@ import Loading from "../../Loading";
 import PlantInfoModal from "./PlantInfoModal";
 import CreatePlantModal from "./CreatePlantModal";
 
-const BACKEND_URL = "http://localhost:3002";
-
 const StyledPlantRow = styled.div`
   border-radius: 8px;
   padding: 5px;
@@ -53,7 +51,7 @@ const PlantsView = ({ currentUser }: { currentUser: number }) => {
   const fetchPlants = useAsync(async function () {
     try {
       const plants = await fetch(
-        `${BACKEND_URL}/plantsByUserId/${currentUser}`
+        `${import.meta.env.VITE_BACKEND_URL}/plantsByUserId/${currentUser}`
       );
       return plants.json();
     } catch (error) {
@@ -63,7 +61,7 @@ const PlantsView = ({ currentUser }: { currentUser: number }) => {
 
   const fetchUsers = useAsync(async function () {
     try {
-      const users = await fetch(`${BACKEND_URL}/users`);
+      const users = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users`);
       return users.json();
     } catch (error) {
       console.log(error);

@@ -6,8 +6,6 @@ import Loading from "../../Loading";
 import { addDays } from "../../../utils/addDays";
 import Button from "../../Button";
 
-const BACKEND_URL = "http://localhost:3002";
-
 const TimeTravel = ({ today, setToday }: { today: Date; setToday: any }) => {
   const travelTime = (number: number) => {
     const newToday = addDays(today, number);
@@ -47,16 +45,19 @@ const PlantRow = ({
   const checkPlantWatered = useAsync(async () => {
     try {
       const next_watering_due_date = addDays(today, plant.watering_frequency);
-      const response = await fetch(`${BACKEND_URL}/plants/${plant.id}`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "put",
-        body: JSON.stringify({
-          next_watering_due_date,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/plants/${plant.id}`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "put",
+          body: JSON.stringify({
+            next_watering_due_date,
+          }),
+        }
+      );
       const message = await response.json();
       console.log(message);
       refreshPlants.call();
@@ -83,7 +84,9 @@ const ScheduleView = ({ currentUser }: { currentUser: number }) => {
   const fetchPlants = useAsync(async function () {
     try {
       const plants = await fetch(
-        `${BACKEND_URL}/scheduledPlantsByUserId/${currentUser}`
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/scheduledPlantsByUserId/${currentUser}`
       );
       return plants.json();
     } catch (error) {

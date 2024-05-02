@@ -3,8 +3,6 @@ import { useAsync } from "../../../utils/useAsync";
 import PlantFormContainer from "./PlantForm";
 import type { TInitialValues } from "./PlantForm";
 
-const BACKEND_URL = "http://localhost:3002";
-
 const EditPlantFormContainer = ({
   refreshPlants,
   plant_id,
@@ -16,14 +14,17 @@ const EditPlantFormContainer = ({
 }) => {
   const editPlant = useAsync(async (formValues) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/plants/${plant_id}`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "put",
-        body: JSON.stringify(formValues),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/plants/${plant_id}`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "put",
+          body: JSON.stringify(formValues),
+        }
+      );
       const message = await response.json();
       console.log(message);
       refreshPlants();
@@ -43,7 +44,7 @@ const EditPlantFormContainer = ({
 const EditPlantModal = ({
   plant_id,
   initialValues,
-  refreshPlants
+  refreshPlants,
 }: {
   plant_id: number;
   initialValues: TInitialValues;

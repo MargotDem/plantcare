@@ -4,7 +4,6 @@ import type { TUser } from "../../../types/usersTypes";
 import EditUserModal from "./EditUserModal";
 import { ModalButtonsDiv } from "../../Modal";
 import DeleteUserModal from "./DeleteUserModal";
-const BACKEND_URL = "http://localhost:3002";
 
 const UserModal = ({
   user_id,
@@ -19,7 +18,9 @@ const UserModal = ({
 }) => {
   const fetchUserInfo = useAsync(async function () {
     try {
-      const user = await fetch(`${BACKEND_URL}/users/${user_id}`);
+      const user = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${user_id}`
+      );
       return user.json();
     } catch (error) {
       console.log(error);

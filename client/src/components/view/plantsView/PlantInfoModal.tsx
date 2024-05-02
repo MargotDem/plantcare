@@ -5,16 +5,14 @@ import type { TUser } from "../../../types/usersTypes";
 import EditPlantModal from "./EditPlantModal";
 import { ModalButtonsDiv } from "../../Modal";
 import DeletePlantModal from "./DeletePlantModal";
-import { useState } from "react"
-
-const BACKEND_URL = "http://localhost:3002";
+import { useState } from "react";
 
 const AddUserSelect = ({
   allUsers,
   plant_id,
-  // setPlantUsers,
-  // plantUsers,
-}: {
+}: // setPlantUsers,
+// plantUsers,
+{
   allUsers: TUser[];
   plant_id: number;
   // setPlantUsers: any;
@@ -23,7 +21,9 @@ const AddUserSelect = ({
   const handleAssignUserToPlant = async (user_id: number) => {
     try {
       const res = await fetch(
-        `${BACKEND_URL}/assignUserToPlant/${user_id}/${plant_id}`,
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/assignUserToPlant/${user_id}/${plant_id}`,
         {
           headers: {
             Accept: "application/json",
@@ -72,7 +72,9 @@ const PlantModal = ({
 }) => {
   const fetchPlantInfo = useAsync(async function () {
     try {
-      const plant = await fetch(`${BACKEND_URL}/plants/${plant_id}`);
+      const plant = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/plants/${plant_id}`
+      );
       return plant.json();
     } catch (error) {
       console.log(error);
@@ -88,7 +90,7 @@ const PlantModal = ({
   const Content = ({ plantInfo, refreshPlants }: ContentProps) => {
     if (!plantInfo) return <></>;
     const { plant, users } = plantInfo;
-    const [plantUsers, setPlantUsers] = useState(users)
+    const [plantUsers, setPlantUsers] = useState(users);
     const date = new Date(plant.date_created);
     return (
       <div>

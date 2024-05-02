@@ -3,8 +3,6 @@ import { useAsync } from "../../../utils/useAsync";
 import UserFormContainer from "./UserForm";
 import type { TInitialValues } from "./UserForm";
 
-const BACKEND_URL = "http://localhost:3002";
-
 const EditUserFormContainer = ({
   refreshUsers,
   userId,
@@ -16,14 +14,17 @@ const EditUserFormContainer = ({
 }) => {
   const editUser = useAsync(async (formValues) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/users/${userId}`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "put",
-        body: JSON.stringify(formValues),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${userId}`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "put",
+          body: JSON.stringify(formValues),
+        }
+      );
       const message = await response.json();
       console.log(message);
       refreshUsers();

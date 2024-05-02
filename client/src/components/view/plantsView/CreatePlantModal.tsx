@@ -3,8 +3,6 @@ import { useAsync } from "../../../utils/useAsync";
 import PlantFormContainer from "./PlantForm";
 import { addDays } from "../../../utils/addDays";
 
-const BACKEND_URL = "http://localhost:3002";
-
 const CreatePlantFormContainer = ({
   refreshPlants,
   user_id,
@@ -28,14 +26,17 @@ const CreatePlantFormContainer = ({
       next_watering_due_date,
     };
     try {
-      const response = await fetch(`${BACKEND_URL}/plants/${user_id}`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "post",
-        body: JSON.stringify(newPlant),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/plants/${user_id}`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "post",
+          body: JSON.stringify(newPlant),
+        }
+      );
       const res = await response.json();
       console.log(res);
       refreshPlants();

@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-import { useAsync } from "./utils/useAsync";
+import { useState } from "react";
 import "./App.css";
-// import TestBackend from "./testBackend";
 import NavBar from "./components/NavBar";
 import CenteredContainer from "./components/CenteredContainer";
 import type { TViews } from "./components/view";
@@ -12,8 +10,6 @@ const StyledTest = styled.div`
   position: relative;
   z-index: 2;
 `;
-
-const BACKEND_URL = "http://localhost:3002";
 
 const AppContainer = styled.div`
   width: 100vw;
@@ -29,7 +25,7 @@ const AppContainer = styled.div`
 
 const MyApp = () => {
   const [view, setView] = useState<TViews>("users");
-  
+
   return (
     <CenteredContainer>
       <AppContainer>
@@ -41,19 +37,6 @@ const MyApp = () => {
 };
 
 function App() {
-  const fetchUsers = useAsync(async function () {
-    try {
-      let users = await fetch(`${BACKEND_URL}/health`);
-      return users.json();
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-  useEffect(() => {
-    fetchUsers.call();
-  }, []);
-
   return (
     <>
       <StyledTest>

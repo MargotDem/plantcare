@@ -7,8 +7,6 @@ import UserInfoModal from "./UserInfoModal";
 import CreateUserModal from "./CreateUserModal";
 import Button from "../../Button";
 
-const BACKEND_URL = "http://localhost:3002";
-
 export type TCurrentUserProps = {
   currentUser: number;
   setCurrentUser: (user: number) => void;
@@ -78,7 +76,7 @@ const UsersView = ({ currentUser, setCurrentUser }: TCurrentUserProps) => {
 
   const fetchUsers = useAsync(async function () {
     try {
-      const users = await fetch(`${BACKEND_URL}/users`);
+      const users = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users`);
       return users.json();
     } catch (error) {
       console.log(error);

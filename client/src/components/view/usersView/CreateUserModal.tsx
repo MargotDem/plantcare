@@ -2,8 +2,6 @@ import Modal from "../../Modal";
 import { useAsync } from "../../../utils/useAsync";
 import UserFormContainer from "./UserForm";
 
-const BACKEND_URL = "http://localhost:3002";
-
 const CreateUserFormContainer = ({
   refreshUsers,
   setCurrentUser,
@@ -16,7 +14,7 @@ const CreateUserFormContainer = ({
   };
   const createUser = useAsync(async (formValues) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/users`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",

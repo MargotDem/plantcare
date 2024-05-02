@@ -2,22 +2,20 @@ import { StyledFormButton } from "../../Form";
 import { useAsync } from "../../../utils/useAsync";
 import Modal from "../../Modal";
 
-const BACKEND_URL = "http://localhost:3002";
-
 const DeleteUserModal = ({
   user_name,
   user_id,
   refreshUsers,
-  setCurrentUser,
+  // setCurrentUser,
 }: {
   user_name: string;
   user_id: number;
   refreshUsers: any;
-  setCurrentUser: any;
+  // setCurrentUser: any;
 }) => {
   const deleteUser = useAsync(async () => {
     try {
-      const resp = await fetch(`${BACKEND_URL}/users/${user_id}`, {
+      const resp = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/${user_id}`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
