@@ -1,4 +1,5 @@
 import { pool } from "../config";
+import { TDatabaseCallBack } from "../controllers/databaseCallBack";
 
 export default class DatabaseLayer {
   protected table: string;
@@ -7,22 +8,22 @@ export default class DatabaseLayer {
     this.table = table;
   }
 
-  public getAll(callBack: any) {
+  public getAll(callBack: TDatabaseCallBack) {
     pool.query(`SELECT * FROM ${this.table} ORDER BY id ASC`, callBack);
   }
 
-  public async getById(id: number, callBack: any) {
+  public async getById(id: number, callBack: TDatabaseCallBack) {
     pool.query(`SELECT * FROM ${this.table} WHERE id = $1`, [id], callBack);
   }
 
-  public delete(id: number, callBack: any) {
+  public delete(id: number, callBack: TDatabaseCallBack) {
     pool.query(`DELETE FROM ${this.table} WHERE id = $1`, [id], callBack);
   }
 
   protected insert(
     columns: string[],
     values: (string | Date | number)[],
-    callBack: any
+    callBack: TDatabaseCallBack
   ) {
     pool.query(
       `INSERT INTO ${this.table} (${columns.toString()}) VALUES (${[
@@ -37,7 +38,7 @@ export default class DatabaseLayer {
     id: number,
     columns: string[],
     values: (string | Date | number)[],
-    callBack: any
+    callBack: TDatabaseCallBack
   ) {
     const columnsValuesPairs = [
       ...columns.map((col, id) => `${col} = $${id + 1}`),
@@ -55,8 +56,8 @@ export default class DatabaseLayer {
     id: number,
     joinedTable: string,
     jointTable: string,
-    callBack: any,
-    order: any, // TODO type
+    callBack: TDatabaseCallBack,
+    order: { asc?: string }
   ) {
     /*
 		TODO: this join method is entirely reliant on the fact that tables and joint tables are named
@@ -77,7 +78,9 @@ export default class DatabaseLayer {
         0,
         -1
       )}_id
-	WHERE ${joinedTable}.id = ${id} ${order.asc ? "ORDER BY next_watering_due_date ASC" : ""};`,
+	WHERE ${joinedTable}.id = ${id} ${
+        order.asc ? "ORDER BY next_watering_due_date ASC" : ""
+      };`,
       callBack
     );
   }
@@ -86,7 +89,7 @@ export default class DatabaseLayer {
     columns: string[],
     values: (string | Date | number)[],
     jointTable: string,
-    callBack: any
+    callBack: TDatabaseCallBack
   ) {
     pool.query(
       `INSERT INTO ${jointTable} (${columns.toString()}) VALUES (${[

@@ -48,7 +48,7 @@ const PlantRow = ({
       );
       const message = await response.json();
       console.log(message);
-      // @ts-ignore
+      // @ts-expect-error idk
       refreshPlants.call();
     } catch (e) {
       console.log(e);

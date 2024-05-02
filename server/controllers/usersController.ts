@@ -1,55 +1,58 @@
 import UserDatabaseLayer from "../databaseLayer/user";
 import databaseCallBack from "./databaseCallBack";
+import { Request, Response } from "express";
+import { QueryResult } from "pg";
 
 const User = new UserDatabaseLayer("users");
 
 const usersController = {
-  getUsers: (_req: any, res: any) => {
+  getUsers: (_req: Request, res: Response) => {
     const callBack = databaseCallBack(
-      (results: any) => res.status(200).json(results.rows),
-      (_error: any) => res.status(500).json({ message: "Database error" })
+      (results: QueryResult) => res.status(200).json(results.rows),
+      (_error: Error) => res.status(500).json({ message: "Database error" })
     );
     User.getAll(callBack);
   },
 
-  createUser: (req: any, res: any) => {
+  createUser: (req: Request, res: Response) => {
     const callBack = databaseCallBack(
-      (results: any) => {
+      (results: QueryResult) => {
         const newUserId = results.rows[0].id;
         res
           .status(200)
           .json({ message: `User added with ID: ${newUserId}`, newUserId });
       },
-      (_error: any) => res.status(500).json({ message: "Database error" })
+      (_error: Error) => res.status(500).json({ message: "Database error" })
     );
     User.createUser(req.body, callBack);
   },
 
-  getUserById: (req: any, res: any) => {
+  getUserById: (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const callBack = databaseCallBack(
-      (results: any) => res.status(200).json(results.rows),
-      (_error: any) => res.status(500).json({ message: "Database error" })
+      (results: QueryResult) => res.status(200).json(results.rows),
+      (_error: Error) => res.status(500).json({ message: "Database error" })
     );
     User.getById(id, callBack);
   },
 
-  deleteUser: (req: any, res: any) => {
+  deleteUser: (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const callBack = databaseCallBack(
-      (_results: any) =>
+      (_results: QueryResult) =>
         res.status(200).json({ message: `User deleted with ID: ${id}` }),
-      (_error: any) => res.status(500).json({ message: "Database error" })
+      (_error: Error) => res.status(500).json({ message: "Database error" })
     );
     User.delete(id, callBack);
   },
 
-  updateUser: (req: any, res: any) => {
+  updateUser: (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
+
     const callBack = databaseCallBack(
-      (_results: any) =>
+      (_results: QueryResult) =>
         res.status(200).json({ message: `User updater with ID: ${id}` }),
-      (_error: any) => res.status(500).json({ message: "Database error" })
+      (_error: Error) => res.status(500).json({ message: "Database error" })
     );
     User.updateUser(id, req.body, callBack);
   },

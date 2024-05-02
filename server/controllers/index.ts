@@ -1,4 +1,4 @@
 import usersController from "./usersController";
-import plantsController from "./plantsController"
+import plantsController from "./plantsController";
 
-export { usersController , plantsController };
+export { usersController, plantsController };

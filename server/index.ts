@@ -17,7 +17,6 @@ const origin = {
     : process.env.LOCAL_FRONTEND,
 };
 
-// TODO: ?
 app.use(json());
 
 // secure HTTP headers in an Express app
@@ -31,7 +30,7 @@ app.use(usersRouter);
 app.use(plantsRouter);
 
 // health check endpoint
-app.get("/health", (req, res) => {
+app.get("/health", (_req, res) => {
   res.json({ message: "Hello World! This is a message from the backend" });
 });
 

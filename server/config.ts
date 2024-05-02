@@ -8,15 +8,9 @@ const pool = new Pool({
   ssl: isProduction,
 });
 
-// pool.on('release', (err: Error, client: Client) => void) => void
-
-pool.on("error", (err: Error) => {
-  console.log('"rreur from pool');
-});
-
-pool.on('connect', (_client: pg.PoolClient) => {
+pool.on("connect", (_client: pg.PoolClient) => {
   // On each new client initiated, need to register for error(this is a serious bug on pg, the client throw errors although it should not)
-  _client.on('error', (err: Error) => {
+  _client.on("error", (err: Error) => {
     console.log(err);
   });
 });

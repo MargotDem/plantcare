@@ -6,6 +6,8 @@
     "noImplicitAny": true,
     "strict": true,
     "useUnknownInCatchVariables": true,
-    "checkJs": true
+    "checkJs": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
   }
 }

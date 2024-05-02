@@ -3,11 +3,15 @@ import { plantsController } from "../controllers";
 
 const plantsRouter = Router();
 
-// plantsRouter.get("/plants", plantsController.getPlants);
+plantsRouter.get(
+  "/plantsByUserId/:user_id",
+  plantsController.getPlantsByUserId
+);
 
-plantsRouter.get("/plantsByUserId/:user_id", plantsController.getPlantsByUserId);
-
-plantsRouter.get("/scheduledPlantsByUserId/:user_id", plantsController.getScheduledPlantsByUserId);
+plantsRouter.get(
+  "/scheduledPlantsByUserId/:user_id",
+  plantsController.getScheduledPlantsByUserId
+);
 
 plantsRouter.post("/plants/:user_id", plantsController.createPlant);
 
@@ -17,6 +21,9 @@ plantsRouter.delete("/plants/:id", plantsController.deletePlant);
 
 plantsRouter.put("/plants/:id", plantsController.updatePlant);
 
-plantsRouter.post("/assignUserToPlant/:user_id/:plant_id", plantsController.assignUserToPlant);
+plantsRouter.post(
+  "/assignUserToPlant/:user_id/:plant_id",
+  plantsController.assignUserToPlant
+);
 
 export { plantsRouter };
