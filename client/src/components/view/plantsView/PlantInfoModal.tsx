@@ -5,7 +5,6 @@ import type { TUser } from "../../../types/usersTypes";
 import EditPlantModal from "./EditPlantModal";
 import { ModalButtonsDiv } from "../../Modal";
 import DeletePlantModal from "./DeletePlantModal";
-import { useState } from "react";
 
 const AddUserSelect = ({
   allUsers,
@@ -86,7 +85,6 @@ const PlantModal = ({
   const Content = ({ plantInfo, refreshPlants }: ContentProps) => {
     if (!plantInfo) return <></>;
     const { plant, users } = plantInfo;
-    const [plantUsers, _setPlantUsers] = useState(users);
     const date = new Date(plant.date_created);
     return (
       <div>
@@ -104,7 +102,7 @@ const PlantModal = ({
         <br />
         <h5>Users assigned to this plant:</h5>
         <ul>
-          {plantUsers.map((user, id) => {
+          {users.map((user, id) => {
             return (
               <li key={id}>{`${user.name}${
                 currentUser === user.user_id ? " (curent user)" : ""

@@ -9,7 +9,7 @@ const DeleteUserModal = ({
 }: {
   user_name: string;
   user_id: number;
-  refreshUsers: any;
+  refreshUsers: () => void;
 }) => {
   const deleteUser = useAsync(async () => {
     try {

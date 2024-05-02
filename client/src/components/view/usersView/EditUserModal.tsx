@@ -48,7 +48,7 @@ const EditUserModal = ({
 }: {
   userId: number;
   initialValues: TInitialValues;
-  refreshUsers: any;
+  refreshUsers: () => void;
 }) => {
   const Content = () => {
     return (

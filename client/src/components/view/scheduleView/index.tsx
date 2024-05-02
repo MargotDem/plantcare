@@ -26,7 +26,7 @@ const PlantRow = ({
   plant: TPlant;
   color: string;
   today: Date;
-  refreshPlants: any;
+  refreshPlants: () => void;
 }) => {
   const date = new Date(plant.next_watering_due_date);
 
@@ -48,6 +48,7 @@ const PlantRow = ({
       );
       const message = await response.json();
       console.log(message);
+      // @ts-ignore
       refreshPlants.call();
     } catch (e) {
       console.log(e);

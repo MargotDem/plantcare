@@ -60,8 +60,8 @@ const StyledModalContent = styled.div`
 `;
 
 type TModalProps = {
-  onOpen?: any;
-  content: any; // TODO type this
+  onOpen?: () => void;
+  content: React.ReactElement;
   openButtonText?: string;
   fullScreen?: boolean;
 };

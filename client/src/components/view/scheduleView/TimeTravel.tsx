@@ -1,6 +1,12 @@
 import { addDays } from "../../../utils/addDays";
 
-const TimeTravel = ({ today, setToday }: { today: Date; setToday: any }) => {
+const TimeTravel = ({
+  today,
+  setToday,
+}: {
+  today: Date;
+  setToday: (today: Date) => void;
+}) => {
   const travelTime = (number: number) => {
     const newToday = addDays(today, number);
     setToday(newToday);
