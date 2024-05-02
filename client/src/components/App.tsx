@@ -1,10 +1,10 @@
 import { useState } from "react";
-import "./App.css";
-import NavBar from "./components/NavBar";
-import CenteredContainer from "./components/CenteredContainer";
-import type { TViews } from "./components/view";
-import View from "./components/view";
+import NavBar from "./NavBar";
+import CenteredContainer from "./CenteredContainer";
+import type { TViews } from "./view";
+import View from "./view";
 import styled from "styled-components";
+import "./App.css";
 
 const StyledTest = styled.div`
   position: relative;
