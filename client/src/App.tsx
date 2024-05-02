@@ -15,17 +15,27 @@ const StyledTest = styled.div`
 
 const BACKEND_URL = "http://localhost:3002";
 
+const AppContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll;
+  // background-color: pink;
+
+  @media only screen and (min-width: 768px) {
+    width: 40vw;
+    height: 70vh;
+  }
+`;
+
 const MyApp = () => {
   const [view, setView] = useState<TViews>("users");
-  const [currentUser, setCurrentUser] = useState<number>(1);
+  
   return (
     <CenteredContainer>
-      <NavBar view={view} setView={setView} />
-      <View
-        view={view}
-        currentUser={currentUser}
-        setCurrentUser={setCurrentUser}
-      />
+      <AppContainer>
+        <NavBar view={view} setView={setView} />
+        <View view={view} />
+      </AppContainer>
     </CenteredContainer>
   );
 };
@@ -50,18 +60,6 @@ function App() {
         <MyApp />
       </StyledTest>
     </>
-    // <>
-    //   {fetchUsers.isPending ? (
-    //     <div>Loading...</div>
-    //   ) : (
-    //     <>
-    //       <h1>Hello</h1>
-    //       <p>Message from the backend: {fetchUsers.value?.message}</p>
-    //       <br />
-    //       <TestBackend />
-    //     </>
-    //   )}
-    // </>
   );
 }
 

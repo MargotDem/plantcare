@@ -27,6 +27,7 @@ const EditUserFormContainer = ({
       console.log("response");
       const message = await response.json();
       console.log(message);
+      refreshUsers();
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +36,6 @@ const EditUserFormContainer = ({
   return (
     <UserFormContainer
       handlerFunction={editUser}
-      refreshUsers={refreshUsers}
       initialValues={initialValues}
     />
   );
@@ -44,17 +44,21 @@ const EditUserFormContainer = ({
 const EditUserModal = ({
   userId,
   initialValues,
+  refreshUsers,
 }: {
   userId: number;
   initialValues: TInitialValues;
+  refreshUsers: any;
 }) => {
   const Content = () => {
     return (
       <div>
-        edit user form
+        Edit the user's information
+        <br />
+        <br />
         <EditUserFormContainer
           initialValues={initialValues}
-          refreshUsers={() => {}}
+          refreshUsers={refreshUsers}
           userId={userId}
         />
       </div>

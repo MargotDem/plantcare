@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "../../Button";
+import { StyledForm, StyledFormButton } from "../../Form";
 
 export type TInitialValues = {
   name: string | undefined;
@@ -15,31 +15,34 @@ const UserForm = ({
   formValues: any; // TODO
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input
-          name="name"
-          type="text"
-          value={formValues.name}
-          onChange={handleChange}
-        />
-      </label>
-      <Button type="button" onClick={(e) => handleSubmit(e)}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
+    >
+      <StyledForm>
+        <label>
+          Name:
+          <input
+            name="name"
+            type="text"
+            value={formValues.name}
+            onChange={handleChange}
+          />
+        </label>
+      </StyledForm>
+      <StyledFormButton type="button" onClick={(e) => handleSubmit(e)}>
         Submit
-      </Button>
-      <input type="submit" value="Submit" />
+      </StyledFormButton>
     </form>
   );
 };
 
 const UserFormContainer = ({
   handlerFunction,
-  refreshUsers,
   initialValues,
 }: {
   handlerFunction: any;
-  refreshUsers: () => void;
   initialValues: TInitialValues;
 }) => {
   const [formValues, setFormValues] = useState(initialValues);
@@ -50,8 +53,6 @@ const UserFormContainer = ({
     console.log(formValues);
     // validation:
     handlerFunction.call(formValues);
-    //?? TODO only when create call is returned
-    refreshUsers();
   };
 
   const handleChange = (e: any) => {

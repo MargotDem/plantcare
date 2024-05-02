@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAsync } from "../../../utils/useAsync";
 import type { TUser } from "../../../types/usersTypes";
 import styled, { css } from "styled-components";
 import Loading from "../../Loading";
 import UserInfoModal from "./UserInfoModal";
 import CreateUserModal from "./CreateUserModal";
+import Button from "../../Button";
 
 const BACKEND_URL = "http://localhost:3002";
 
@@ -14,14 +15,28 @@ export type TCurrentUserProps = {
 };
 
 const StyledUserRow = styled.p<{ $highlighted?: boolean }>`
-  &:hover {
-    cursor: pointer;
-  }
+  border-radius: 8px;
+  padding: 5px;
+  margin-top: 8px;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+  background-color: #424242;
   ${(props) =>
     props.$highlighted &&
     css`
-      color: orange;
+      background-color: #228b22;
     `};
+`;
+
+const ChoosUserButton = styled(Button)`
+  font-size: small;
+`;
+
+const SideButtonsDiv = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const UserRow = ({
@@ -36,27 +51,31 @@ const UserRow = ({
   refreshUsers: any;
 }) => {
   return (
-    <li>
-      <StyledUserRow
-        $highlighted={isCurrentUser}
-        onClick={() => setCurrentUser(user.id)}
-      >
-        {`${user.name}${isCurrentUser ? ` (current user)` : ""}`}
-        <input type="checkbox" checked={isCurrentUser}></input>
-        (set current user)
-      </StyledUserRow>
-      <>
+    <StyledUserRow $highlighted={isCurrentUser}>
+      <p>
+        {`${user.name}`}
+        <br />
+        {`${isCurrentUser ? `(current user)` : ""}`}
+      </p>
+      <SideButtonsDiv>
+        {" "}
         <UserInfoModal
           user_id={user.id}
           isCurrentUser={isCurrentUser}
           refreshUsers={refreshUsers}
+          setCurrentUser={setCurrentUser}
         />
-      </>
-    </li>
+        <ChoosUserButton onClick={() => setCurrentUser(user.id)}>
+          Set as current user
+        </ChoosUserButton>
+      </SideButtonsDiv>
+    </StyledUserRow>
   );
 };
 
 const UsersView = ({ currentUser, setCurrentUser }: TCurrentUserProps) => {
+  const [users, setUsers] = useState<TUser[]>([]);
+
   const fetchUsers = useAsync(async function () {
     try {
       const users = await fetch(`${BACKEND_URL}/users`);
@@ -67,35 +86,65 @@ const UsersView = ({ currentUser, setCurrentUser }: TCurrentUserProps) => {
   });
 
   useEffect(() => {
+    console.log("in use effect");
+    console.log("current user");
+    console.log(currentUser);
     fetchUsers.call();
   }, []);
 
+  const refreshUsers = () => {
+    fetchUsers.call();
+  };
+
+  useEffect(() => {
+    console.log("does this fire several times??");
+    console.log(fetchUsers.value);
+    setUsers(fetchUsers.value);
+    // fetchUsers.value && setCurrentUser(fetchUsers.value[0]?.id);
+    if (currentUser === 0) {
+      //fetchUsers.value.map((user, id) => return user.id)
+      // fetchUsers.value && setCurrentUser(fetchUsers.value[0]?.id);
+    }
+    if (
+      fetchUsers.value &&
+      !fetchUsers.value.map((user: TUSer) => user.id).includes(currentUser)
+    ) {
+      console.log("were here");
+      fetchUsers.value && setCurrentUser(fetchUsers.value[0]?.id);
+    }
+  }, [fetchUsers.value]);
+
   // console.log("users");
   // console.log(fetchUsers.value);
-  const users = fetchUsers.value;
   return (
     <div>
       {fetchUsers.isPending ? (
         <Loading />
       ) : (
         <>
-          <CreateUserModal refreshUsers={() => fetchUsers.call()} />
+          <CreateUserModal
+            refreshUsers={refreshUsers}
+            setCurrentUser={setCurrentUser}
+          />
           <br />
           <br />
-          <ul>
-            {(users as unknown as TUser[])?.map((user, id) => {
-              const isCurrentUser = currentUser === user.id;
-              return (
-                <UserRow
-                  key={id}
-                  user={user}
-                  isCurrentUser={isCurrentUser}
-                  setCurrentUser={setCurrentUser}
-                  refreshUsers={() => fetchUsers.call()}
-                />
-              );
-            })}
-          </ul>
+
+          {(users as unknown as TUser[])?.map((user, id) => {
+            const isCurrentUser = currentUser === user.id;
+            console.log();
+            // if (user.id === 0) {
+            //   console.log
+            // }
+            return (
+              <UserRow
+                key={id}
+                user={user}
+                isCurrentUser={isCurrentUser}
+                setCurrentUser={setCurrentUser}
+                refreshUsers={refreshUsers}
+              />
+            );
+          })}
         </>
       )}
     </div>

@@ -10,10 +10,13 @@ const Button = styled.button<{ $primary?: boolean }>`
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  &:hover {
+    background-color: #2f2ffa;
+  }
   ${(props) =>
     props.$primary &&
     css`
-      background: blue;
+      background: #0000FF;
     `};
 `;
 

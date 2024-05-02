@@ -1,12 +1,15 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Button from "./Button";
-import type {TViews} from "./view"
+import type { TViews } from "./view";
 
 const StyledNavContainer = styled.div`
-  text-align: center;
+  justify-content: center;
   align-items: center;
   display: flex;
   flex-direction: row;
+  // width: 60%;
+  margin: auto;
+  // background-color: blue;
 `;
 
 type TNavProps = {
@@ -14,24 +17,31 @@ type TNavProps = {
   setView: (view: TViews) => void;
 };
 
+const StyledNavButton = styled(Button)`
+  margin: 5px;
+  // font-size: small;
+`;
+
 const NavButton = ({
   view,
   setView,
   currentView,
 }: TNavProps & { currentView: TViews }) => {
   return (
-    <Button $primary={currentView === view} onClick={() => setView(view)}>
+    <StyledNavButton $primary={currentView === view} onClick={() => setView(view)}>
       {view}
-    </Button>
+    </StyledNavButton>
   );
 };
 
 const NavBar = ({ view, setView }: TNavProps) => {
   return (
     <StyledNavContainer>
-      <NavButton view={"users"} currentView={view} setView={setView} />
-      <NavButton view={"plants"} currentView={view} setView={setView} />
-      <NavButton view={"schedule"} currentView={view} setView={setView} />
+      <div>
+        <NavButton view={"users"} currentView={view} setView={setView} />
+        <NavButton view={"plants"} currentView={view} setView={setView} />
+        <NavButton view={"schedule"} currentView={view} setView={setView} />
+      </div>
     </StyledNavContainer>
   );
 };

@@ -25,10 +25,9 @@ const TimeTravel = ({ today, setToday }: { today: Date; setToday: any }) => {
 };
 
 const StyledPlantRow = styled.div<{ $color?: string }>`
-  background-color: orange;
   border-radius: 8px;
   padding: 5px;
-  margin-top: 5px;
+  margin-top: 8px;
   ${(props) =>
     css`
       background: ${props.$color};
@@ -39,10 +38,12 @@ const PlantRow = ({
   plant,
   color,
   today,
+  refreshPlants,
 }: {
   plant: TPlant;
   color: string;
   today: Date;
+  refreshPlants: any;
 }) => {
   const date = new Date(plant.next_watering_due_date);
   const checkPlantWatered = useAsync(async () => {
@@ -61,13 +62,13 @@ const PlantRow = ({
       console.log("response");
       const message = await response.json();
       console.log(message);
+	  refreshPlants.call();
     } catch (e) {
       console.log(e);
     }
   });
   const handleCheck = () => {
     checkPlantWatered.call();
-    console.log("CHECK!");
   };
   return (
     <StyledPlantRow $color={color}>
@@ -75,7 +76,6 @@ const PlantRow = ({
       {"Next watering due: "}
       {`${date.toLocaleDateString()} `}
       <Button onClick={() => handleCheck()}>Plant watered!</Button>
-      {/* <input type="checkbox" checked={false} onChange={handleCheck}></input> */}
     </StyledPlantRow>
   );
 };
@@ -98,6 +98,10 @@ const ScheduleView = ({ currentUser }: { currentUser: number }) => {
     fetchPlants.call();
   }, []);
 
+  const refreshPlants = () => {
+    fetchPlants.call();
+  };
+
   //   const today = new Date();
   //   const today = addDays(new Date(), 3);
   console.log("today");
@@ -115,7 +119,7 @@ const ScheduleView = ({ currentUser }: { currentUser: number }) => {
       case true:
         return "#cf4011";
       case false:
-        return "green";
+        return "#228B22";
     }
   };
   return (
@@ -126,17 +130,22 @@ const ScheduleView = ({ currentUser }: { currentUser: number }) => {
         <>
           <TimeTravel today={today} setToday={setToday} />
           <br />
-          <ul>
-            {(plants as unknown as TPlant[])?.map((plant, id) => {
-              const color = assignColor(
-                today,
-                new Date(plant.next_watering_due_date)
-              );
-              return (
-                <PlantRow key={id} plant={plant} color={color} today={today} />
-              );
-            })}
-          </ul>
+
+          {(plants as unknown as TPlant[])?.map((plant, id) => {
+            const color = assignColor(
+              today,
+              new Date(plant.next_watering_due_date)
+            );
+            return (
+              <PlantRow
+                key={id}
+                plant={plant}
+                color={color}
+                today={today}
+                refreshPlants={refreshPlants}
+              />
+            );
+          })}
         </>
       )}
     </div>

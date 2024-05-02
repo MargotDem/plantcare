@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "../../Button";
+import { StyledForm, StyledFormButton } from "../../Form";
 
 export type TInitialValues = {
   name: string | undefined;
@@ -17,49 +17,52 @@ const PlantForm = ({
   formValues: any; // TODO
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input
-          name="name"
-          type="text"
-          value={formValues.name}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Watering frequency:
-        <input
-          name="watering_frequency"
-          type="text"
-          value={formValues.watering_frequency}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Description*:
-        <input
-          name="description"
-          type="text"
-          value={formValues.description}
-          onChange={handleChange}
-        />
-      </label>
-      <Button type="button" onClick={(e) => handleSubmit(e)}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
+    >
+      <StyledForm>
+        <label>
+          Name:
+          <input
+            name="name"
+            type="text"
+            value={formValues.name}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Watering frequency:
+          <input
+            name="watering_frequency"
+            type="text"
+            value={formValues.watering_frequency}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Description*:
+          <input
+            name="description"
+            type="text"
+            value={formValues.description}
+            onChange={handleChange}
+          />
+        </label>
+      </StyledForm>
+      <StyledFormButton type="button" onClick={(e) => handleSubmit(e)}>
         Submit
-      </Button>
-      <input type="submit" value="Submit" />
+      </StyledFormButton>
     </form>
   );
 };
 
 const PlantFormContainer = ({
   handlerFunction,
-  refreshPlants,
   initialValues,
 }: {
   handlerFunction: any;
-  refreshPlants: () => void;
   initialValues: TInitialValues;
 }) => {
   const [formValues, setFormValues] = useState(initialValues);
@@ -74,8 +77,6 @@ const PlantFormContainer = ({
       return;
     }
     handlerFunction.call(formValues);
-    //?? TODO only when create call is returned
-    refreshPlants();
   };
 
   const handleChange = (e: any) => {

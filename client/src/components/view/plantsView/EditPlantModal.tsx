@@ -27,6 +27,7 @@ const EditPlantFormContainer = ({
       console.log("response");
       const message = await response.json();
       console.log(message);
+      refreshPlants();
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +36,6 @@ const EditPlantFormContainer = ({
   return (
     <PlantFormContainer
       handlerFunction={editPlant}
-      refreshPlants={refreshPlants}
       initialValues={initialValues}
     />
   );
@@ -44,17 +44,21 @@ const EditPlantFormContainer = ({
 const EditPlantModal = ({
   plant_id,
   initialValues,
+  refreshPlants
 }: {
   plant_id: number;
   initialValues: TInitialValues;
+  refreshPlants: any;
 }) => {
   const Content = () => {
     return (
       <div>
-        edit plant form
+        Edit the plant's information
+        <br />
+        <br />
         <EditPlantFormContainer
           initialValues={initialValues}
-          refreshPlants={() => {}}
+          refreshPlants={refreshPlants}
           plant_id={plant_id}
         />
       </div>

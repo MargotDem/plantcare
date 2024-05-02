@@ -1,17 +1,14 @@
 import UsersView from "./usersView";
 import PlantsView from "./plantsView";
 import ScheduleView from "./scheduleView";
-import type { TCurrentUserProps } from "./usersView";
 import CenteredContainer from "../CenteredContainer";
+import { useState } from "react";
 
 export type TViews = "users" | "plants" | "schedule";
 
-const View = ({
-  view,
-  currentUser,
-  setCurrentUser,
-}: { view: TViews } & TCurrentUserProps) => {
+const View = ({ view }: { view: TViews }) => {
   let currentView;
+  const [currentUser, setCurrentUser] = useState<number>(0);
 
   switch (view) {
     case "users":

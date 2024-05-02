@@ -1,63 +1,21 @@
 import Modal from "../../Modal";
 import { useAsync } from "../../../utils/useAsync";
 import type { TUser } from "../../../types/usersTypes";
-import Button from "../../Button";
 import EditUserModal from "./EditUserModal";
-
+import { ModalButtonsDiv } from "../../Modal";
+import DeleteUserModal from "./DeleteUserModal";
 const BACKEND_URL = "http://localhost:3002";
-
-const DeleteUserModal = ({
-  user_name,
-  user_id,
-  refreshUsers,
-}: {
-  user_name: string;
-  user_id: number;
-  refreshUsers: any;
-}) => {
-  const deleteUser = useAsync(async () => {
-    try {
-      const resp = await fetch(`${BACKEND_URL}/users/${user_id}`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "delete",
-      });
-      console.log("response");
-      console.log(await resp.json());
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-  const handleDeleteUser = () => {
-    deleteUser.call();
-    refreshUsers();
-  };
-
-  const Content = () => {
-    return (
-      <div>
-        Are you sure to delete user {user_name}???
-        <br />
-        <Button onClick={handleDeleteUser}>Yes, delete</Button>
-      </div>
-    );
-  };
-  return (
-    <Modal openButtonText={"Delete user"} content={<Content />} fullScreen />
-  );
-};
 
 const UserModal = ({
   user_id,
   isCurrentUser,
   refreshUsers,
+  setCurrentUser,
 }: {
   user_id: number;
   isCurrentUser: boolean;
   refreshUsers: any;
+  setCurrentUser: any;
 }) => {
   const fetchUserInfo = useAsync(async function () {
     try {
@@ -86,17 +44,21 @@ const UserModal = ({
         </h3>
         Date joined: {date.toLocaleDateString()}
         <br />
-        <DeleteUserModal
-          user_name={user.name}
-          refreshUsers={refreshUsers}
-          user_id={user.id}
-        />
-        <EditUserModal
-          userId={user.id}
-          initialValues={{
-            name: user.name,
-          }}
-        />
+        <ModalButtonsDiv>
+          <DeleteUserModal
+            user_name={user.name}
+            refreshUsers={refreshUsers}
+            user_id={user.id}
+            setCurrentUser={setCurrentUser}
+          />
+          <EditUserModal
+            userId={user.id}
+            initialValues={{
+              name: user.name,
+            }}
+            refreshUsers={refreshUsers}
+          />
+        </ModalButtonsDiv>
       </div>
     );
   };

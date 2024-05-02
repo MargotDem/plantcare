@@ -2,61 +2,23 @@ import Modal from "../../Modal";
 import { useAsync } from "../../../utils/useAsync";
 import type { TPlant } from "../../../types/plantsTypes";
 import type { TUser } from "../../../types/usersTypes";
-import Button from "../../Button";
 import EditPlantModal from "./EditPlantModal";
+import { ModalButtonsDiv } from "../../Modal";
+import DeletePlantModal from "./DeletePlantModal";
+import { useState } from "react"
 
 const BACKEND_URL = "http://localhost:3002";
-
-const DeletePlantModal = ({
-  plant_name,
-  plant_id,
-  refreshUsers,
-}: {
-  plant_name: string;
-  plant_id: number;
-  refreshUsers: any;
-}) => {
-  const deletePlant = useAsync(async () => {
-    try {
-      const resp = await fetch(`${BACKEND_URL}/plants/${plant_id}`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "delete",
-      });
-      console.log("response");
-      console.log(await resp.json());
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-  const handleDeletePlant = () => {
-    deletePlant.call();
-    refreshUsers();
-  };
-
-  const Content = () => {
-    return (
-      <div>
-        Are you sure to delete plant {plant_name}???
-        <br />
-        <Button onClick={handleDeletePlant}>Yes, delete</Button>
-      </div>
-    );
-  };
-  return (
-    <Modal openButtonText={"Delete plant"} content={<Content />} fullScreen />
-  );
-};
 
 const AddUserSelect = ({
   allUsers,
   plant_id,
+  // setPlantUsers,
+  // plantUsers,
 }: {
   allUsers: TUser[];
   plant_id: number;
+  // setPlantUsers: any;
+  // plantUsers: any;
 }) => {
   const handleAssignUserToPlant = async (user_id: number) => {
     try {
@@ -101,10 +63,12 @@ const PlantModal = ({
   plant_id,
   currentUser,
   allUsers,
+  refreshPlants,
 }: {
   plant_id: number;
   currentUser: number;
   allUsers: TUser[];
+  refreshPlants: any;
 }) => {
   const fetchPlantInfo = useAsync(async function () {
     try {
@@ -119,10 +83,12 @@ const PlantModal = ({
       plant: TPlant;
       users: TUser[];
     };
+    refreshPlants: any;
   };
-  const Content = ({ plantInfo }: ContentProps) => {
+  const Content = ({ plantInfo, refreshPlants }: ContentProps) => {
     if (!plantInfo) return <></>;
     const { plant, users } = plantInfo;
+    const [plantUsers, setPlantUsers] = useState(users)
     const date = new Date(plant.date_created);
     return (
       <div>
@@ -140,7 +106,7 @@ const PlantModal = ({
         <br />
         <h5>Users assigned to this plant:</h5>
         <ul>
-          {users.map((user, id) => {
+          {plantUsers.map((user, id) => {
             return (
               <li key={id}>{`${user.name}${
                 currentUser === user.user_id ? " (curent user)" : ""
@@ -148,21 +114,29 @@ const PlantModal = ({
             );
           })}
         </ul>
-        <AddUserSelect allUsers={allUsers} plant_id={plant.id} />
+        <AddUserSelect
+          allUsers={allUsers}
+          plant_id={plant.id}
+          // refreshPlants={refreshPlants}
+          // setPlantUsers={setPlantUsers}
+        />
         <br />
-        <DeletePlantModal
-          plant_id={plant.id}
-          plant_name={plant.name}
-          refreshUsers={() => {}}
-        />
-        <EditPlantModal
-          plant_id={plant.id}
-          initialValues={{
-            name: plant.name,
-            description: plant.description,
-            watering_frequency: plant.watering_frequency.toString(),
-          }}
-        />
+        <ModalButtonsDiv>
+          <DeletePlantModal
+            plant_id={plant.id}
+            plant_name={plant.name}
+            refreshPlants={refreshPlants}
+          />
+          <EditPlantModal
+            refreshPlants={refreshPlants}
+            plant_id={plant.id}
+            initialValues={{
+              name: plant.name,
+              description: plant.description,
+              watering_frequency: plant.watering_frequency.toString(),
+            }}
+          />
+        </ModalButtonsDiv>
       </div>
     );
   };
@@ -175,7 +149,7 @@ const PlantModal = ({
     <Modal
       openButtonText={"See plant details"}
       onOpen={() => fetchPlantInfo.call()}
-      content={<Content plantInfo={plantInfo} />}
+      content={<Content plantInfo={plantInfo} refreshPlants={refreshPlants} />}
     />
   );
 };

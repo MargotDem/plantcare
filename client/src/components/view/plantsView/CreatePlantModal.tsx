@@ -18,7 +18,17 @@ const CreatePlantFormContainer = ({
     description: undefined,
   };
   const createPlant = useAsync(async (formValues) => {
-    const next_watering_due_date = addDays(new Date(), formValues.watering_frequency);
+    const today = new Date();
+    console.log("today is");
+    console.log(today);
+    console.log(
+      `formvalues formValues.watering_frequency ${formValues.watering_frequency}`
+    );
+    const next_watering_due_date = addDays(
+      today,
+      Number(formValues.watering_frequency)
+    );
+    console.log(`watering due date ${next_watering_due_date}`);
     const newPlant = {
       ...formValues,
       next_watering_due_date,
@@ -35,6 +45,7 @@ const CreatePlantFormContainer = ({
       console.log("response");
       const message = await response.json();
       console.log(message);
+      refreshPlants();
     } catch (error) {
       console.log(error);
     }
@@ -43,7 +54,6 @@ const CreatePlantFormContainer = ({
   return (
     <PlantFormContainer
       handlerFunction={createPlant}
-      refreshPlants={refreshPlants}
       initialValues={initialValues}
     />
   );
@@ -59,7 +69,9 @@ const CreatePlantModal = ({
   const Content = () => {
     return (
       <div>
-        create new plant form
+        Create a new plant
+        <br />
+        <br />
         <CreatePlantFormContainer
           refreshPlants={refreshPlants}
           user_id={user_id}

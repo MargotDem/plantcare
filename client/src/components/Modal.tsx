@@ -2,9 +2,20 @@ import Button from "./Button";
 import { useState } from "react";
 import styled, { css } from "styled-components";
 
+export const ModalButtonsDiv = styled.div`
+  width: 300px;
+  margin: auto;
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-around;
+`;
+
+const StyledModalCloseButton = styled(Button)`
+  margin-bottom: 30px;
+`;
+
 const StyledModal = styled.div<{ $isOpen: boolean }>`
   display: none;
-  backgroundcolor: green;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -26,12 +37,10 @@ const StyledModal = styled.div<{ $isOpen: boolean }>`
     `}
 `;
 
-const StyledModalContent = styled.div<{ $fullScreen: boolean | undefined }>`
-  background-color: green;
+const StyledModalCard = styled.div<{ $fullScreen: boolean | undefined }>`
+  background-color: #424242;
   width: 80%;
   margin: 10% auto;
-  // margin-top: 10%:
-
   padding: 40px;
   border-radius: 8px;
   &:hover {
@@ -45,12 +54,21 @@ const StyledModalContent = styled.div<{ $fullScreen: boolean | undefined }>`
     `};
 `;
 
+const StyledModalContent = styled.div`
+  width: 80%;
+  margin: auto;
+`;
+
 type TModalProps = {
   onOpen?: any;
   content: any; // TODO type this
   openButtonText?: string;
   fullScreen?: boolean;
 };
+
+const OpenModalButton = styled(Button)`
+  font-size: small;
+`;
 
 const Modal = ({
   onOpen,
@@ -67,20 +85,26 @@ const Modal = ({
   };
   return (
     <>
-      <Button onClick={() => handleOpen()}>{openButtonText || "open"}</Button>
+      <OpenModalButton onClick={() => handleOpen()}>
+        {openButtonText || "open"}
+      </OpenModalButton>
       <StyledModal
         $isOpen={isOpen}
         onClick={() => {
           setIsOpen(false);
         }}
       >
-        <StyledModalContent
+        <StyledModalCard
           $fullScreen={fullScreen}
           onClick={(e) => e.stopPropagation()}
         >
-          <Button onClick={() => setIsOpen(false)}>close</Button>
-          {content}
-        </StyledModalContent>
+          <StyledModalContent>
+            <StyledModalCloseButton onClick={() => setIsOpen(false)}>
+              close
+            </StyledModalCloseButton>
+            {content}
+          </StyledModalContent>
+        </StyledModalCard>
       </StyledModal>
     </>
   );

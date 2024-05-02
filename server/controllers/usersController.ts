@@ -14,10 +14,12 @@ const usersController = {
 
   createUser: (req: any, res: any) => {
     const callBack = databaseCallBack(
-      (results: any) =>
+      (results: any) => {
+        const newUserId = results.rows[0].id;
         res
           .status(200)
-          .json({ message: `User added with ID: ${results.rows[0].id}` }),
+          .json({ message: `User added with ID: ${newUserId}`, newUserId });
+      },
       (_error: any) => res.status(500).json({ message: "Database error" })
     );
     User.createUser(req.body, callBack);

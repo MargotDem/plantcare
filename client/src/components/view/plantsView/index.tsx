@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAsync } from "../../../utils/useAsync";
 import type { TPlant } from "../../../types/plantsTypes";
 import type { TUser } from "../../../types/usersTypes";
@@ -9,30 +9,47 @@ import CreatePlantModal from "./CreatePlantModal";
 
 const BACKEND_URL = "http://localhost:3002";
 
-const StyledPlantRow = styled.p<{ $highlighted?: boolean }>``;
+const StyledPlantRow = styled.div`
+  border-radius: 8px;
+  padding: 5px;
+  margin-top: 8px;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+  background-color: #424242;
+  // background-color: #228b22;
+`;
 
 const PlantRow = ({
   plant,
   currentUser,
   users,
+  refreshPlants,
 }: {
   plant: TPlant;
   currentUser: number;
   users: TUser[];
+  refreshPlants: any;
 }) => {
   return (
-    <li>
-      <StyledPlantRow>{plant.name}</StyledPlantRow>
+    <StyledPlantRow>
+      <p>{`${plant.name}`}</p>
+      &nbsp;
       <PlantInfoModal
         plant_id={plant.id}
         currentUser={currentUser}
         allUsers={users}
+        refreshPlants={refreshPlants}
       />
-    </li>
+    </StyledPlantRow>
   );
 };
 
 const PlantsView = ({ currentUser }: { currentUser: number }) => {
+  const [plants, setPlants] = useState<TPlant[]>([]);
+  const [users, setUsers] = useState<TUser[]>([]);
+
   const fetchPlants = useAsync(async function () {
     try {
       const plants = await fetch(
@@ -58,10 +75,27 @@ const PlantsView = ({ currentUser }: { currentUser: number }) => {
     fetchUsers.call();
   }, []);
 
+  const refreshPlants = () => {
+    console.log("refresh!");
+    console.log("current user");
+    console.log(currentUser);
+    fetchPlants.call();
+  };
+
+  useEffect(() => {
+    console.log("does this fire several times??");
+    console.log(fetchPlants.value);
+    setPlants(fetchPlants.value);
+  }, [fetchPlants.value]);
+
+  useEffect(() => {
+    console.log("does this fire several times??");
+    console.log(fetchUsers.value);
+    setUsers(fetchUsers.value);
+  }, [fetchUsers.value]);
+
   console.log("plants");
-  console.log(fetchPlants.value);
-  const plants = fetchPlants.value;
-  const users = fetchUsers.value;
+  console.log(plants);
   return (
     <div>
       {fetchPlants.isPending ? (
@@ -70,22 +104,21 @@ const PlantsView = ({ currentUser }: { currentUser: number }) => {
         <>
           <CreatePlantModal
             user_id={currentUser}
-            refreshPlants={() => fetchPlants.call()}
+            refreshPlants={refreshPlants}
           />
           <br />
           <br />
-          <ul>
-            {(plants as unknown as TPlant[])?.map((plant, id) => {
-              return (
-                <PlantRow
-                  key={id}
-                  plant={plant}
-                  currentUser={currentUser}
-                  users={users}
-                />
-              );
-            })}
-          </ul>
+          {(plants as unknown as TPlant[])?.map((plant, id) => {
+            return (
+              <PlantRow
+                key={id}
+                plant={plant}
+                currentUser={currentUser}
+                users={users}
+                refreshPlants={refreshPlants}
+              />
+            );
+          })}
         </>
       )}
     </div>
