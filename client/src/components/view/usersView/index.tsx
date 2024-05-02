@@ -12,7 +12,7 @@ export type TCurrentUserProps = {
   setCurrentUser: (user: number) => void;
 };
 
-const StyledUserRow = styled.p<{ $highlighted?: boolean }>`
+const StyledUserRow = styled.div<{ $highlighted?: boolean }>`
   border-radius: 8px;
   padding: 5px;
   margin-top: 8px;
@@ -46,7 +46,7 @@ const UserRow = ({
   isCurrentUser: boolean;
   user: TUser;
   setCurrentUser: (id: number) => void;
-  refreshUsers: any;
+  refreshUsers: () => void;
 }) => {
   return (
     <StyledUserRow $highlighted={isCurrentUser}>
@@ -61,7 +61,6 @@ const UserRow = ({
           user_id={user.id}
           isCurrentUser={isCurrentUser}
           refreshUsers={refreshUsers}
-          setCurrentUser={setCurrentUser}
         />
         <ChoosUserButton onClick={() => setCurrentUser(user.id)}>
           Set as current user
@@ -95,7 +94,7 @@ const UsersView = ({ currentUser, setCurrentUser }: TCurrentUserProps) => {
     setUsers(fetchUsers.value);
     if (
       fetchUsers.value &&
-      !fetchUsers.value.map((user: TUSer) => user.id).includes(currentUser)
+      !fetchUsers.value.map((user: TUser) => user.id).includes(currentUser)
     ) {
       fetchUsers.value && setCurrentUser(fetchUsers.value[0]?.id);
     }

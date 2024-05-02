@@ -10,13 +10,9 @@ import { useState } from "react";
 const AddUserSelect = ({
   allUsers,
   plant_id,
-}: // setPlantUsers,
-// plantUsers,
-{
+}: {
   allUsers: TUser[];
   plant_id: number;
-  // setPlantUsers: any;
-  // plantUsers: any;
 }) => {
   const handleAssignUserToPlant = async (user_id: number) => {
     try {
@@ -68,7 +64,7 @@ const PlantModal = ({
   plant_id: number;
   currentUser: number;
   allUsers: TUser[];
-  refreshPlants: any;
+  refreshPlants: () => void;
 }) => {
   const fetchPlantInfo = useAsync(async function () {
     try {
@@ -83,14 +79,14 @@ const PlantModal = ({
   type ContentProps = {
     plantInfo?: {
       plant: TPlant;
-      users: TUser[];
+      users: (TUser & { user_id: number })[];
     };
-    refreshPlants: any;
+    refreshPlants: () => void;
   };
   const Content = ({ plantInfo, refreshPlants }: ContentProps) => {
     if (!plantInfo) return <></>;
     const { plant, users } = plantInfo;
-    const [plantUsers, setPlantUsers] = useState(users);
+    const [plantUsers, _setPlantUsers] = useState(users);
     const date = new Date(plant.date_created);
     return (
       <div>
@@ -116,12 +112,7 @@ const PlantModal = ({
             );
           })}
         </ul>
-        <AddUserSelect
-          allUsers={allUsers}
-          plant_id={plant.id}
-          // refreshPlants={refreshPlants}
-          // setPlantUsers={setPlantUsers}
-        />
+        <AddUserSelect allUsers={allUsers} plant_id={plant.id} />
         <br />
         <ModalButtonsDiv>
           <DeletePlantModal

@@ -2,26 +2,34 @@ import Modal from "../../Modal";
 import { useAsync } from "../../../utils/useAsync";
 import UserFormContainer from "./UserForm";
 
+export type TInitialValues = {
+  name: string;
+};
+
 const CreateUserFormContainer = ({
   refreshUsers,
   setCurrentUser,
 }: {
   refreshUsers: () => void;
-  setCurrentUser: any;
+  setCurrentUser: (userId: number) => void;
 }) => {
   const initialValues = {
-    name: undefined,
+    name: "",
   };
+
   const createUser = useAsync(async (formValues) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "post",
-        body: JSON.stringify(formValues),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "post",
+          body: JSON.stringify(formValues),
+        }
+      );
       const { message, newUserId } = await response.json();
       console.log(message);
       refreshUsers();
@@ -44,7 +52,7 @@ const CreateUserModal = ({
   setCurrentUser,
 }: {
   refreshUsers: () => void;
-  setCurrentUser: any;
+  setCurrentUser: (id: number) => void;
 }) => {
   const Content = () => {
     return (

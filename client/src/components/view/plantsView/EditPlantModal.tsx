@@ -1,7 +1,7 @@
 import Modal from "../../Modal";
 import { useAsync } from "../../../utils/useAsync";
 import PlantFormContainer from "./PlantForm";
-import type { TInitialValues } from "./PlantForm";
+import type { TInitialValues } from "./CreatePlantModal";
 
 const EditPlantFormContainer = ({
   refreshPlants,
@@ -48,7 +48,7 @@ const EditPlantModal = ({
 }: {
   plant_id: number;
   initialValues: TInitialValues;
-  refreshPlants: any;
+  refreshPlants: () => void;
 }) => {
   const Content = () => {
     return (

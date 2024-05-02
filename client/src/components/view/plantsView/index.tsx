@@ -28,7 +28,7 @@ const PlantRow = ({
   plant: TPlant;
   currentUser: number;
   users: TUser[];
-  refreshPlants: any;
+  refreshPlants: () => void;
 }) => {
   return (
     <StyledPlantRow>
@@ -97,7 +97,7 @@ const PlantsView = ({ currentUser }: { currentUser: number }) => {
           />
           <br />
           <br />
-          {(plants as unknown as TPlant[])?.map((plant, id) => {
+          {plants?.map((plant, id) => {
             return (
               <PlantRow
                 key={id}

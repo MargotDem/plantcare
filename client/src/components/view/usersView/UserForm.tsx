@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { StyledForm, StyledFormButton } from "../../Form";
-
-export type TInitialValues = {
-  name: string | undefined;
-};
+import type { TInitialValues } from "./CreateUserModal";
+import type { TUseAsyncReturn } from "../../../utils/useAsync";
 
 const UserForm = ({
   handleSubmit,
   handleChange,
   formValues,
 }: {
-  handleSubmit: any;
-  handleChange: any;
-  formValues: any; // TODO
+  handleSubmit: (e: React.FormEvent) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  formValues: TInitialValues;
 }) => {
   return (
     <form
@@ -42,18 +40,18 @@ const UserFormContainer = ({
   handlerFunction,
   initialValues,
 }: {
-  handlerFunction: any;
+  handlerFunction: TUseAsyncReturn;
   initialValues: TInitialValues;
 }) => {
   const [formValues, setFormValues] = useState(initialValues);
 
-  const handleSubmit = (e: HTMLFormElement) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: validation
     handlerFunction.call(formValues);
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,

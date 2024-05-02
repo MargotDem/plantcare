@@ -3,6 +3,12 @@ import { useAsync } from "../../../utils/useAsync";
 import PlantFormContainer from "./PlantForm";
 import { addDays } from "../../../utils/addDays";
 
+export type TInitialValues = {
+  name: string;
+  watering_frequency: string;
+  description: string;
+};
+
 const CreatePlantFormContainer = ({
   refreshPlants,
   user_id,
@@ -11,9 +17,9 @@ const CreatePlantFormContainer = ({
   user_id: number;
 }) => {
   const initialValues = {
-    name: undefined,
-    watering_frequency: undefined,
-    description: undefined,
+    name: "",
+    watering_frequency: "",
+    description: "",
   };
   const createPlant = useAsync(async (formValues) => {
     const today = new Date();

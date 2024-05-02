@@ -9,12 +9,10 @@ const UserModal = ({
   user_id,
   isCurrentUser,
   refreshUsers,
-  setCurrentUser,
 }: {
   user_id: number;
   isCurrentUser: boolean;
-  refreshUsers: any;
-  setCurrentUser: any;
+  refreshUsers: () => void;
 }) => {
   const fetchUserInfo = useAsync(async function () {
     try {
@@ -32,7 +30,7 @@ const UserModal = ({
     refreshUsers,
   }: {
     user?: TUser;
-    refreshUsers: any;
+    refreshUsers: () => void;
   }) => {
     if (!user) return <></>;
     const date = new Date(user.date_created);
@@ -48,7 +46,6 @@ const UserModal = ({
             user_name={user.name}
             refreshUsers={refreshUsers}
             user_id={user.id}
-            setCurrentUser={setCurrentUser}
           />
           <EditUserModal
             userId={user.id}

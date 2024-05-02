@@ -6,22 +6,23 @@ const DeleteUserModal = ({
   user_name,
   user_id,
   refreshUsers,
-  // setCurrentUser,
 }: {
   user_name: string;
   user_id: number;
   refreshUsers: any;
-  // setCurrentUser: any;
 }) => {
   const deleteUser = useAsync(async () => {
     try {
-      const resp = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/${user_id}`, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        method: "delete",
-      });
+      const resp = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/users/${user_id}`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          method: "delete",
+        }
+      );
       const message = await resp.json();
       console.log(message);
       refreshUsers();

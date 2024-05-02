@@ -9,7 +9,7 @@ const DeletePlantModal = ({
 }: {
   plant_name: string;
   plant_id: number;
-  refreshPlants: any;
+  refreshPlants: () => void;
 }) => {
   const deletePlant = useAsync(async () => {
     try {

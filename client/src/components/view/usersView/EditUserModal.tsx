@@ -1,7 +1,7 @@
 import Modal from "../../Modal";
 import { useAsync } from "../../../utils/useAsync";
 import UserFormContainer from "./UserForm";
-import type { TInitialValues } from "./UserForm";
+import type { TInitialValues } from "./CreateUserModal";
 
 const EditUserFormContainer = ({
   refreshUsers,

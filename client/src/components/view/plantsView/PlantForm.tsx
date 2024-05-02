@@ -1,24 +1,20 @@
 import { useState } from "react";
 import { StyledForm, StyledFormButton } from "../../Form";
-
-export type TInitialValues = {
-  name: string | undefined;
-  watering_frequency: string | undefined;
-  description: string | undefined;
-};
+import type { TUseAsyncReturn } from "../../../utils/useAsync";
+import type { TInitialValues } from "./CreatePlantModal";
 
 const PlantForm = ({
   handleSubmit,
   handleChange,
   formValues,
 }: {
-  handleSubmit: any;
-  handleChange: any;
-  formValues: any; // TODO
+  handleSubmit: (e: React.FormEvent) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  formValues: TInitialValues;
 }) => {
   return (
     <form
-      onSubmit={(e) => {
+      onSubmit={(e: React.FormEvent) => {
         e.preventDefault();
       }}
     >
@@ -62,12 +58,12 @@ const PlantFormContainer = ({
   handlerFunction,
   initialValues,
 }: {
-  handlerFunction: any;
+  handlerFunction: TUseAsyncReturn;
   initialValues: TInitialValues;
 }) => {
   const [formValues, setFormValues] = useState(initialValues);
 
-  const handleSubmit = (e: HTMLFormElement) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: validation for all forms
     if (isNaN(Number(formValues.watering_frequency))) {
@@ -76,7 +72,7 @@ const PlantFormContainer = ({
     handlerFunction.call(formValues);
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormValues({
       ...formValues,
       [e.target.name]: e.target.value,
