@@ -3,22 +3,9 @@ import { useAsync } from "../../../utils/useAsync";
 import type { TPlant } from "../../../types/plantsTypes";
 import styled, { css } from "styled-components";
 import Loading from "../../Loading";
-import { addDays } from "../../../utils/addDays";
 import Button from "../../Button";
-
-const TimeTravel = ({ today, setToday }: { today: Date; setToday: any }) => {
-  const travelTime = (number: number) => {
-    const newToday = addDays(today, number);
-    setToday(newToday);
-  };
-  return (
-    <div>
-      Time travel: Today is {today.toLocaleDateString()}{" "}
-      <button onClick={() => travelTime(1)}>+1</button>{" "}
-      <button onClick={() => travelTime(-1)}>-1</button>
-    </div>
-  );
-};
+import TimeTravel from "./TimeTravel";
+import { addDays } from "../../../utils/addDays";
 
 const StyledPlantRow = styled.div<{ $color?: string }>`
   border-radius: 8px;
@@ -42,6 +29,7 @@ const PlantRow = ({
   refreshPlants: any;
 }) => {
   const date = new Date(plant.next_watering_due_date);
+
   const checkPlantWatered = useAsync(async () => {
     try {
       const next_watering_due_date = addDays(today, plant.watering_frequency);
@@ -65,9 +53,11 @@ const PlantRow = ({
       console.log(e);
     }
   });
+
   const handleCheck = () => {
     checkPlantWatered.call();
   };
+
   return (
     <StyledPlantRow $color={color}>
       {plant.name} {`(water every ${plant.watering_frequency} days) `}

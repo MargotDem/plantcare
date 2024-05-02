@@ -16,7 +16,7 @@ const Button = styled.button<{ $primary?: boolean }>`
   ${(props) =>
     props.$primary &&
     css`
-      background: #0000FF;
+      background: #0000ff;
     `};
 `;
 

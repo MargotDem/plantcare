@@ -12,3 +12,4 @@ node_modules
 *.sw?
 
 plantcare.code-workspace
+.env

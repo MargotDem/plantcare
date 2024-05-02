@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-export const useAsync = (fn: (...args: any[]) => any) => {
+export const useAsync = <T>(fn: (...args: any[]) => Promise<T>) => {
   const [isPending, setIsPending] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState<T | null>(null);
 
   const call = (...args: any) => {
     setIsPending(true);

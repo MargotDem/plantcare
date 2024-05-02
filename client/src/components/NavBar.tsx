@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Button from "./Button";
 import type { TViews } from "./view";
 
@@ -28,7 +28,10 @@ const NavButton = ({
   currentView,
 }: TNavProps & { currentView: TViews }) => {
   return (
-    <StyledNavButton $primary={currentView === view} onClick={() => setView(view)}>
+    <StyledNavButton
+      $primary={currentView === view}
+      onClick={() => setView(view)}
+    >
       {view}
     </StyledNavButton>
   );
