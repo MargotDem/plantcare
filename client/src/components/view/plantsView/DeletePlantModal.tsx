@@ -21,7 +21,6 @@ const DeletePlantModal = ({
 		  },
 		  method: "delete",
 		});
-		console.log("response");
 		const message = await resp.json();
 		console.log(message);
 		refreshPlants();

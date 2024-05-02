@@ -76,26 +76,17 @@ const PlantsView = ({ currentUser }: { currentUser: number }) => {
   }, []);
 
   const refreshPlants = () => {
-    console.log("refresh!");
-    console.log("current user");
-    console.log(currentUser);
     fetchPlants.call();
   };
 
   useEffect(() => {
-    console.log("does this fire several times??");
-    console.log(fetchPlants.value);
     setPlants(fetchPlants.value);
   }, [fetchPlants.value]);
 
   useEffect(() => {
-    console.log("does this fire several times??");
-    console.log(fetchUsers.value);
     setUsers(fetchUsers.value);
   }, [fetchUsers.value]);
 
-  console.log("plants");
-  console.log(plants);
   return (
     <div>
       {fetchPlants.isPending ? (

@@ -69,10 +69,7 @@ const PlantFormContainer = ({
 
   const handleSubmit = (e: HTMLFormElement) => {
     e.preventDefault();
-    console.log("form submitted");
-    console.log(formValues);
-    // validation:
-    // if (formValues.watering_frequency)
+    // TODO: validation for all forms
     if (isNaN(Number(formValues.watering_frequency))) {
       return;
     }

@@ -24,7 +24,6 @@ const EditUserFormContainer = ({
         method: "put",
         body: JSON.stringify(formValues),
       });
-      console.log("response");
       const message = await response.json();
       console.log(message);
       refreshUsers();

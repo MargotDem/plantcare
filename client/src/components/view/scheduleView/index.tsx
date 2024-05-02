@@ -10,8 +10,6 @@ const BACKEND_URL = "http://localhost:3002";
 
 const TimeTravel = ({ today, setToday }: { today: Date; setToday: any }) => {
   const travelTime = (number: number) => {
-    console.log("clicked travelTime");
-    console.log(`so time now: ${today.toLocaleDateString()}`);
     const newToday = addDays(today, number);
     setToday(newToday);
   };
@@ -59,10 +57,9 @@ const PlantRow = ({
           next_watering_due_date,
         }),
       });
-      console.log("response");
       const message = await response.json();
       console.log(message);
-	  refreshPlants.call();
+      refreshPlants.call();
     } catch (e) {
       console.log(e);
     }
@@ -102,19 +99,9 @@ const ScheduleView = ({ currentUser }: { currentUser: number }) => {
     fetchPlants.call();
   };
 
-  //   const today = new Date();
-  //   const today = addDays(new Date(), 3);
-  console.log("today");
-  console.log(today.toLocaleString());
-
-  //   console.log(today > new Date());
-
-  //   console.log("plants");
-  //   console.log(fetchPlants.value);
   const plants = fetchPlants.value;
 
   const assignColor = (date1: Date, date2: Date) => {
-    // return "purple"
     switch (date2 < date1) {
       case true:
         return "#cf4011";
@@ -122,6 +109,7 @@ const ScheduleView = ({ currentUser }: { currentUser: number }) => {
         return "#228B22";
     }
   };
+
   return (
     <div>
       {fetchPlants.isPending ? (

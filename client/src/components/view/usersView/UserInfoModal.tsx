@@ -25,8 +25,6 @@ const UserModal = ({
       console.log(error);
     }
   });
-  // console.log("fetched user");
-  // console.log(fetchUserInfo.value && fetchUserInfo.value[0]);
 
   const Content = ({
     user,

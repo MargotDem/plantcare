@@ -49,9 +49,7 @@ const UserFormContainer = ({
 
   const handleSubmit = (e: HTMLFormElement) => {
     e.preventDefault();
-    console.log("form submitted");
-    console.log(formValues);
-    // validation:
+    // TODO: validation
     handlerFunction.call(formValues);
   };
 

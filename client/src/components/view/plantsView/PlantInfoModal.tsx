@@ -141,8 +141,6 @@ const PlantModal = ({
     );
   };
 
-  console.log("fetched plant");
-  console.log(fetchPlantInfo.value && fetchPlantInfo.value);
   const plantInfo = (fetchPlantInfo.value && fetchPlantInfo.value) || undefined;
 
   return (

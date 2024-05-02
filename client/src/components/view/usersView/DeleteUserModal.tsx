@@ -24,7 +24,6 @@ const DeleteUserModal = ({
         },
         method: "delete",
       });
-      console.log("response");
       const message = await resp.json();
       console.log(message);
       refreshUsers();

@@ -19,16 +19,10 @@ const CreatePlantFormContainer = ({
   };
   const createPlant = useAsync(async (formValues) => {
     const today = new Date();
-    console.log("today is");
-    console.log(today);
-    console.log(
-      `formvalues formValues.watering_frequency ${formValues.watering_frequency}`
-    );
     const next_watering_due_date = addDays(
       today,
       Number(formValues.watering_frequency)
     );
-    console.log(`watering due date ${next_watering_due_date}`);
     const newPlant = {
       ...formValues,
       next_watering_due_date,
@@ -42,9 +36,8 @@ const CreatePlantFormContainer = ({
         method: "post",
         body: JSON.stringify(newPlant),
       });
-      console.log("response");
-      const message = await response.json();
-      console.log(message);
+      const res = await response.json();
+      console.log(res);
       refreshPlants();
     } catch (error) {
       console.log(error);

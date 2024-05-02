@@ -86,9 +86,6 @@ const UsersView = ({ currentUser, setCurrentUser }: TCurrentUserProps) => {
   });
 
   useEffect(() => {
-    console.log("in use effect");
-    console.log("current user");
-    console.log(currentUser);
     fetchUsers.call();
   }, []);
 
@@ -97,25 +94,15 @@ const UsersView = ({ currentUser, setCurrentUser }: TCurrentUserProps) => {
   };
 
   useEffect(() => {
-    console.log("does this fire several times??");
-    console.log(fetchUsers.value);
     setUsers(fetchUsers.value);
-    // fetchUsers.value && setCurrentUser(fetchUsers.value[0]?.id);
-    if (currentUser === 0) {
-      //fetchUsers.value.map((user, id) => return user.id)
-      // fetchUsers.value && setCurrentUser(fetchUsers.value[0]?.id);
-    }
     if (
       fetchUsers.value &&
       !fetchUsers.value.map((user: TUSer) => user.id).includes(currentUser)
     ) {
-      console.log("were here");
       fetchUsers.value && setCurrentUser(fetchUsers.value[0]?.id);
     }
   }, [fetchUsers.value]);
 
-  // console.log("users");
-  // console.log(fetchUsers.value);
   return (
     <div>
       {fetchUsers.isPending ? (
@@ -131,10 +118,6 @@ const UsersView = ({ currentUser, setCurrentUser }: TCurrentUserProps) => {
 
           {(users as unknown as TUser[])?.map((user, id) => {
             const isCurrentUser = currentUser === user.id;
-            console.log();
-            // if (user.id === 0) {
-            //   console.log
-            // }
             return (
               <UserRow
                 key={id}

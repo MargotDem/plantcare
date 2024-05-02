@@ -15,7 +15,6 @@ const CreateUserFormContainer = ({
     name: undefined,
   };
   const createUser = useAsync(async (formValues) => {
-    console.log("heereee");
     try {
       const response = await fetch(`${BACKEND_URL}/users`, {
         headers: {
@@ -25,7 +24,6 @@ const CreateUserFormContainer = ({
         method: "post",
         body: JSON.stringify(formValues),
       });
-      console.log("response");
       const { message, newUserId } = await response.json();
       console.log(message);
       refreshUsers();
